@@ -1,9 +1,15 @@
-// wrapper for querySelector...returns matching element
-export function qs(selector, parent = document) {
-  return parent.querySelector(selector);
+function convertToText(res) {
+  if (res.ok) {
+    return res.text();
+  } else {
+    throw new Error('Bad Response');
+  }
 }
-// or a more concise version if you are into that sort of thing:
-// export const qs = (selector, parent = document) => parent.querySelector(selector);
+
+// wrapper for querySelector...returns matching element
+export function qs(selector) {
+  return document.querySelector(selector);
+}
 
 // retrieve data from localstorage
 export function getLocalStorage(key) {
@@ -15,68 +21,52 @@ export function setLocalStorage(key, data) {
 }
 // set a listener for both touchend and click
 export function setClick(selector, callback) {
-  qs(selector).addEventListener("touchend", (event) => {
+  qs(selector).addEventListener('touchend', (event) => {
     event.preventDefault();
     callback();
   });
-  qs(selector).addEventListener("click", callback);
+  qs(selector).addEventListener('click', callback);
 }
-//function to get the param
+
 export function getParam(param) {
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
   return urlParams.get(param);
 }
 
-export function renderListWithTemplate(
-  templateFn,
-  parentElement,
-  list,
-  position = "afterbegin",
-  clear = true
-) {
-  if (clear) {
-    parentElement.innerHTML = '';
-  }
-  const htmlString = list.map(templateFn);
-  parentElement.insertAdjacentHTML(position, htmlString.join(''));
+export function renderListWithTemplate(template, parent, list, callback) {
+  list.forEach(item => {
+    const clone = template.content.cloneNode(true);
+    const templateWithData = callback(clone, item);
+    parent.appendChild(templateWithData);
+  })
 }
 
-export async function renderWithTemplate(
-  templateFn,
-  parentElement,
-  data,
-  callback,
-  position = "afterbegin",
-  clear = true
-) {
-  if (clear) {
-    parentElement.innerHTML = "";
-  }
-  const htmlString = await templateFn(data);
-  parentElement.insertAdjacentHTML(position, htmlString);
-  if (callback) {
-    callback(data);
-  }
-}
-
-function loadTemplate(path) {
-
-  return async function () {
-    const res = await fetch(path);
-    if (res.ok) {
-      const html = await res.text();
-      return html;
+export function renderWithTemplate(template, parent, data, callback) {
+  
+    let clone = template.content.cloneNode(true);
+    if(callback) {
+    clone = callback(clone, data);
+    
     }
-  };
+    parent.appendChild(clone);
+  
 }
 
-export async function loadHeaderFooter() {
+export async function loadTemplate(path) {
+  const html = await fetch(path).then(convertToText);
+  const template = document.createElement('template');
+  template.innerHTML = html;
+  return template;
 
-  const headerTemplateFn = loadTemplate("/public/partials/header.html");
-  const footerTemplateFn = loadTemplate("/public/partials/footer.html");
-  const headerEl = document.querySelector("#main-header");
-  const footerEl = document.querySelector("#main-footer");
-  renderWithTemplate(headerTemplateFn, headerEl);
-  renderWithTemplate(footerTemplateFn, footerEl);
+}
+
+// load the header and footer
+export async function loadHeaderFooter() {
+  const header = await loadTemplate('../partials/header.html');
+  const footer = await loadTemplate('../partials/footer.html');
+  const headerElement = document.getElementById('main-header');
+  const footerElement = document.getElementById('main-footer');
+  renderWithTemplate(header, headerElement);
+  renderWithTemplate(footer, footerElement);
 }
