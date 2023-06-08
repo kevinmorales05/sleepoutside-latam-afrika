@@ -1,5 +1,5 @@
 import { setLocalStorage, getLocalStorage } from "./utils.mjs";
-import { findProductById } from "./productData.mjs";
+import { findProductById } from "./externalServices.mjs";
 
 let product = {};
 
@@ -9,9 +9,10 @@ export default async function productDetails(productId) {
   // once we have the product details we can render out the HTML
   renderProductDetails();
   // once the HTML is rendered we can add a listener to Add to Cart button
-  document.getElementById("addToCart").addEventListener("click", addToCartHandler);
+  document
+    .getElementById("addToCart")
+    .addEventListener("click", addToCartHandler);
 }
-
 
 function addProductToCart(productToAdd) {
   let cartItems = getLocalStorage("so-cart");
@@ -26,7 +27,6 @@ async function addToCartHandler(e) {
   const productToAdd = await findProductById(e.target.dataset.id);
   addProductToCart(productToAdd);
 }
-
 
 function renderProductDetails() {
   document.querySelector("#productName").innerText = product.Brand.Name;
