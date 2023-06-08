@@ -48,7 +48,7 @@ export async function renderWithTemplate(
   data,
   callback,
   position = "afterbegin",
-  clear = false
+  clear = true
 ) {
   if (clear) {
     parentElement.innerHTML = "";
@@ -71,8 +71,8 @@ function loadTemplate(path) {
 }
 
 export async function loadHeaderFooter() {
-  const headerTemplateFn = loadTemplate("/public/partials/header.html");
-  const footerTemplateFn = loadTemplate("/public/partials/footer.html");
+  const headerTemplateFn = loadTemplate("/partials/header.html");
+  const footerTemplateFn = loadTemplate("/partials/footer.html");
   const headerEl = document.querySelector("#main-header");
   const footerEl = document.querySelector("#main-footer");
   renderWithTemplate(headerTemplateFn, headerEl);
