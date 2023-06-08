@@ -36,10 +36,10 @@ export function renderListWithTemplate(
   clear = true
 ) {
   if (clear) {
-    parentElement.innerHTML = '';
+    parentElement.innerHTML = "";
   }
   const htmlString = list.map(templateFn);
-  parentElement.insertAdjacentHTML(position, htmlString.join(''));
+  parentElement.insertAdjacentHTML(position, htmlString.join(""));
 }
 
 export async function renderWithTemplate(
@@ -48,7 +48,7 @@ export async function renderWithTemplate(
   data,
   callback,
   position = "afterbegin",
-  clear = true
+  clear = false
 ) {
   if (clear) {
     parentElement.innerHTML = "";
@@ -61,7 +61,6 @@ export async function renderWithTemplate(
 }
 
 function loadTemplate(path) {
-
   return async function () {
     const res = await fetch(path);
     if (res.ok) {
@@ -72,7 +71,6 @@ function loadTemplate(path) {
 }
 
 export async function loadHeaderFooter() {
-
   const headerTemplateFn = loadTemplate("/public/partials/header.html");
   const footerTemplateFn = loadTemplate("/public/partials/footer.html");
   const headerEl = document.querySelector("#main-header");
