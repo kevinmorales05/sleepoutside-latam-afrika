@@ -39,6 +39,10 @@ export function renderListWithTemplate(
     parentElement.innerHTML = "";
   }
   const htmlString = list.map(templateFn);
+  // htmlString.forEach((item) => {
+  //   console.log(item);
+  // });
+  console.log(parentElement);
   parentElement.insertAdjacentHTML(position, htmlString.join(""));
 }
 
