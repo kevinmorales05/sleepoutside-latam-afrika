@@ -4,8 +4,10 @@ function convertToJson(res) {
   if (res.ok) {
     return res.json();
   } else {
+    const error = new Error(`Bad Response (${res.status} ${res.statusText})`);
+    console.log(error);
     console.log(res);
-    throw new Error("Bad Response");
+    throw error;
   }
 }
 
