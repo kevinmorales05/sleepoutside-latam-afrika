@@ -12,7 +12,7 @@
     "test": "jest"
     
   },
-  "author": "Shane Thompson",
+  "author":  "Shane Thompson",
   "license": "ISC",
   "devDependencies": {
     "eslint": "^8.26.0",
