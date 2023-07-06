@@ -1,6 +1,7 @@
-import { loadHeaderFooter } from "./utils.mjs";
+import { loadHeaderFooter, updateCartItemCount } from "./utils.mjs";
 import checkoutProcess from "./checkoutProcess.mjs";
 
+updateCartItemCount();
 loadHeaderFooter();
 
 checkoutProcess.init("so-cart", ".checkout-summary");
