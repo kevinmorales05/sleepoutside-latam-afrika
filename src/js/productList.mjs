@@ -1,5 +1,6 @@
 import { getProductsByCategory } from './externalServices.mjs';
 import { renderListWithTemplate } from './utils.mjs';
+import { checkLogin } from './auth.mjs';
 
 export default function productList(selector, category) {
   const container = document.querySelector(selector);
@@ -40,4 +41,43 @@ function filterProducts(product) {
 
 export function capitalizeWord(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+function filterBySearchName(selector, products) {
+
+  const getSearchForm = document.querySelector('#search-form');
+  const container = document.querySelector(selector);
+
+  if (getSearchForm) {
+    getSearchForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const getSearchValue = document.querySelector('#search-input').value.trim();
+
+      if (getSearchValue) {
+        const filteredResults = products.filter((product) => {
+          const productName = product.Name;
+          return productName.includes(getSearchValue);
+        });
+        if (filteredResults.length === 0) {
+          renderEmptySearch();
+        } else {
+          renderListWithTemplate(productCardTemplate, container, filteredResults);
+          eventModal();
+        }
+      } else {
+        renderListWithTemplate(productCardTemplate, container, products);
+        eventModal();
+      }
+    });
+  }
+}
+
+export function productListBySearch(selector) {
+  const token = checkLogin();
+  searchProduct(token)
+    .then((fetchedProducts) => {
+      products = fetchedProducts;
+      filterBySearchName(selector);
+    })
+    .catch((error) => console.error(error));
 }

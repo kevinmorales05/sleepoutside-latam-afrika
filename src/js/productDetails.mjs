@@ -16,7 +16,7 @@ export default async function productsDetails(productId) {
   }
 }
 
-function addProductToCart(product) {
+export function addProductToCart(product) {
   // Retrieve the current cart items from local storage
   const cartItems = getLocalStorage('so-cart');
   // Check if the product id exists in the cart

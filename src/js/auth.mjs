@@ -1,7 +1,6 @@
-import jwt_decode from "jwt-decode";
 import { loginRequest } from "./externalServices.mjs";
 import { alertMessage, getLocalStorage, setLocalStorage } from "./utils.mjs";
-
+import jwt_decode from "jwt-decode";
 
 const tokenKey = "so-token";
 
@@ -33,7 +32,7 @@ export function isTokenValid(token){
 }
 
 export function checkLogin(){
-    const getToken = getLocalStorage('so-token');
+    const getToken = getLocalStorage(tokenKey);
     if (!isTokenValid(getToken)) {
         localStorage.removeItem(tokenKey);
         const location = window.location;
