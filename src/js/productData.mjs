@@ -1,9 +1,12 @@
-const baseURL = import.meta.env.VITE_SERVER_URL;
-function convertToJson(res) {
+const baseURL = import.meta.env.VITE_SERVER_URL
+async function convertToJson(res) {
+  const data = await res.json();
+
   if (res.ok) {
-    return res.json();
+    return data;
   } else {
-    throw new Error("Bad Response");
+
+    throw { name: "servicesError", message: data };
   }
 }
 
@@ -28,3 +31,17 @@ export default class ProductData {
       .then((data) => data.Result);
   }
 }
+
+
+
+export async function checkout(payload) {
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  };
+  return await fetch(baseURL + "checkout/", options).then(convertToJson);
+}
+
