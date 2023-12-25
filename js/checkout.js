@@ -6,9 +6,13 @@ loadHeaderFooter();
 
 checkoutProcess.init('so-cart', '.order-summary');
 
-document
-  .querySelector('#zip')
-  .addEventListener('blur', checkoutProcess.calculateOrderTotal.bind(checkoutProcess));
+document.addEventListener('DOMContentLoaded', () => {
+  const zipElement = document.querySelector('#zip');
+
+  if (zipElement) {
+    zipElement.addEventListener('blur', checkoutProcess.calculateOrderTotal.bind(checkoutProcess));
+  }
+});
 
 document.querySelector('.checkout-orden')
   .addEventListener('click', (e) => {

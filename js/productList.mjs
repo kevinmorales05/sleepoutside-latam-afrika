@@ -5,7 +5,7 @@ export default function productList(selector, category) {
   const container = document.querySelector(selector);
   getProductsByCategory(category)
     .then((products) => {
-      console.log(products);
+      // console.log(products);
       const filter = products.filter(filterProducts);
       renderListWithTemplate(productCardTemplate, container, filter);
     })

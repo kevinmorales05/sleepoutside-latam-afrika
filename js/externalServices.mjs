@@ -1,4 +1,4 @@
-const baseURL = import.meta.env.VITE_SERVER_URL
+const baseURL = 'http://server-nodejs.cit.byui.edu:3000/'
 async function convertToJson(res) {
   const data = await res.json();
   if (res.ok) {
@@ -21,9 +21,9 @@ export async function findProductById(id) {
 
 export async function checkout(payload) {
   const options = {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json"
+      'Content-Type': 'application/json'
     },
     body: JSON.stringify(payload),
   };
@@ -32,9 +32,9 @@ export async function checkout(payload) {
 
 export async function loginRequest(creds){
   const options = {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify(creds),
   };
@@ -44,7 +44,7 @@ export async function loginRequest(creds){
 
 export async function getOrders(token){
   const options = {
-    method: "GET",
+    method: 'GET',
     headers: {
       Authorization: `Bearer ${token}`,
     },

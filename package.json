@@ -11,7 +11,7 @@
     "format": "prettier --ignore-path ./.gitignore --write \"./**/*.{html,json,js,ts,css}\"",
     "test": "jest"
   },
-  "author":  "Shane Thompson",
+  "author": "Shane Thompson",
   "license": "ISC",
   "devDependencies": {
     "eslint": "^8.26.0",
@@ -34,7 +34,7 @@
     "last 3 safari versions"
   ],
   "dependencies": {
+    "dotenv": "^16.3.1",
     "jwt-decode": "^3.1.2"
   }
-  }
-
+}

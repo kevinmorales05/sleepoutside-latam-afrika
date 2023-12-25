@@ -9,6 +9,7 @@ export default async function productsDetails(productId) {
     renderProductDetails();
     document.querySelector('#addToCart').addEventListener('click', () => {
       addProductToCart(product);
+      console.log('added to the cart');
     });
   } catch (error) {
     console.log(error)

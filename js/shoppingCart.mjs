@@ -30,7 +30,7 @@ function cartItemTemplate(item) {
   <p class="cart-card__price">$${(item.FinalPrice * item.Quantity).toFixed(2)}</p>
   <button class="deleteBtn" data-id="${
     item.Id
-  }"><span class="xBtn"><img src="../../images/trash.svg" alt="Icon Trash"/></span></button>
+  }"><span class="xBtn"><img src="../public/images/trash.svg" alt="Icon Trash"/></span></button>
 </li>`;
   return newItem;
 }

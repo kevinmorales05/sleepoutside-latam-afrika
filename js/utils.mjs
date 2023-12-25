@@ -1,9 +1,15 @@
-
-function convertToText(res) {
+async function convertToText(res) {
   if (res.ok) {
-    return res.text();
+    return await res.text();
   } else {
-    throw new Error("Bad Response");
+    try {
+      const errorMessage = await res.text();
+      console.log(errorMessage);
+      throw new Error('Bad Response');
+    } catch (error) {
+      console.error('Error processing response:', error);
+      throw new Error('Bad Response');
+    }
   }
 }
 // wrapper for querySelector...returns matching element
@@ -35,11 +41,11 @@ export function setLocalStorage(key, data) {
 }
 // set a listener for both touchend and click
 export function setClick(selector, callback) {
-  qs(selector).addEventListener("touchend", (event) => {
+  qs(selector).addEventListener('touchend', (event) => {
     event.preventDefault();
     callback();
   });
-  qs(selector).addEventListener("click", callback);
+  qs(selector).addEventListener('click', callback);
 }
 
 export const getParam = (param) => {
@@ -61,15 +67,21 @@ export function renderListWithTemplate(
   }
   const htmlString = list.map(templateFn);
   parentElement.insertAdjacentHTML(position, htmlString.join(''));
+
+  // list.forEach((item) => {
+  //   const clone = templateFn.content.cloneNode(true);
+  //   const templateWithData = callback(clone, item);
+  //   parent.appendChild(templateWithData);
+  // });
 }
 
-export function renderListWithTemplate(template, parent, list, callback) {
-  list.forEach((item) => {
-    const clone = template.content.cloneNode(true);
-    const templateWithData = callback(clone, item);
-    parent.appendChild(templateWithData);
-  });
-}
+// export function renderListWithTemplate(template, parent, list, callback) {
+//   list.forEach((item) => {
+//     const clone = template.content.cloneNode(true);
+//     const templateWithData = callback(clone, item);
+//     parent.appendChild(templateWithData);
+//   });
+// }
 
 export function renderWithTemplate(template, parent, data, callback) {
   let clone = template.content.cloneNode(true);
@@ -81,17 +93,17 @@ export function renderWithTemplate(template, parent, data, callback) {
 
 export async function loadTemplate(path) {
   const html = await fetch(path).then(convertToText);
-  const template = document.createElement("template");
+  const template = document.createElement('template');
   template.innerHTML = html;
   return template;
 }
 
 // load the header and footer
 export async function loadHeaderFooter() {
-  const header = await loadTemplate("../partials/header.html");
-  const footer = await loadTemplate("../partials/footer.html");
-  const headerElement = document.getElementById("main-header");
-  const footerElement = document.getElementById("main-footer");
+  const header = await loadTemplate('../public/partials/header.html');
+  const footer = await loadTemplate('../public/partials/footer.html');
+  const headerElement = document.getElementById('main-header');
+  const footerElement = document.getElementById('main-footer');
   renderWithTemplate(header, headerElement);
   renderWithTemplate(footer, footerElement);
 }
@@ -105,7 +117,7 @@ export function alertMessage(message, scroll = true, duration = 3000) {
   // add a listener to the alert to see if they clicked on the X
   // if they did then remove the child
   alert.addEventListener('click', function (e) {
-    if (e.target.tagName == "SPAN") { // how can we tell if they clicked on our X or on something else?  hint: check out e.target.tagName or e.target.innerText
+    if (e.target.tagName == 'SPAN') { // how can we tell if they clicked on our X or on something else?  hint: check out e.target.tagName or e.target.innerText
       element.removeChild(this);
     }
   })
@@ -123,8 +135,8 @@ export function alertMessage(message, scroll = true, duration = 3000) {
 }
 
 export function removeAllAlerts() {
-  const alerts = document.querySelectorAll(".alert");
-  alerts.forEach((alert) => document.querySelector(".products").removeChild(alert));
+  const alerts = document.querySelectorAll('.alert');
+  alerts.forEach((alert) => document.querySelector('.products').removeChild(alert));
 }
 
 export function updateCartItemCount() {
