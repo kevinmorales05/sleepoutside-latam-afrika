@@ -1,11 +1,11 @@
-import jwt_decode from "jwt-decode";
-import { loginRequest } from "./externalServices.mjs";
-import { alertMessage, getLocalStorage, setLocalStorage } from "./utils.mjs";
+import jwt_decode from 'jwt-decode';
+import { loginRequest } from './externalServices.mjs';
+import { alertMessage, getLocalStorage, setLocalStorage } from './utils.mjs';
 
 
-const tokenKey = "so-token";
+const tokenKey = 'so-token';
 
-export async function login(creds, redirect = "/"){
+export async function login(creds, redirect = '/'){
     try {
         const token = await loginRequest(creds);
         console.log(token);
@@ -21,10 +21,10 @@ export function isTokenValid(token){
         const decode_token = jwt_decode(token);
         const current_date = new Date();
         if (decode_token.exp * 1000 < current_date.getTime()) {
-            console.log("token expired");
+            console.log('token expired');
             return false;
         } else {
-            console.log("valid token");
+            console.log('valid token');
             return true;
         } 
     } else {

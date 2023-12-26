@@ -1,5 +1,5 @@
-import { loginRequest, getOrders } from "./externalServices.mjs";
-import { alertMessage } from "./utils.mjs";
+import { loginRequest, getOrders } from './externalServices.mjs';
+import { alertMessage } from './utils.mjs';
 
 export default class Admin {
   constructor(outputSelector) {
@@ -21,9 +21,9 @@ export default class Admin {
     // add the html for the login form
     this.mainElement.innerHTML = loginFormTemplate();
     // now that it is in the DOM we can add a listener for the login button
-    document.querySelector("#loginButton").addEventListener("click", (e) => {
-      const email = document.querySelector("#email").value;
-      const password = document.querySelector("#password").value;
+    document.querySelector('#loginButton').addEventListener('click', (e) => {
+      const email = document.querySelector('#email').value;
+      const password = document.querySelector('#password').value;
       this.login({ email, password }, this.showOrders.bind(this));
     });
   }
@@ -31,18 +31,18 @@ export default class Admin {
     try {
       const orders = await getOrders(this.token);
       this.mainElement.innerHTML = orderTemplate();
-      const parent = document.querySelector("#orders tbody");
+      const parent = document.querySelector('#orders tbody');
       // why not a template like we have done before?  The markup here was simple enough that I didn't think it worth the overhead...but a template would certainly work!
       parent.innerHTML = orders
         .map(
           (order) =>
             `<tr><td>${order.id}</td><td>${new Date(
               order.orderDate
-            ).toLocaleDateString("en-US")}</td><td>${
+            ).toLocaleDateString('en-US')}</td><td>${
               order.items.length
             }</td><td>${order.orderTotal}</td></tr>`
         )
-        .join("");
+        .join('');
     } catch (err) {
       console.log(err);
     }
